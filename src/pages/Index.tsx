@@ -3,13 +3,6 @@ import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import QuickStart from "@/components/QuickStart";
-import Features from "@/components/Features";
-import Analytics from "@/components/sections/Analytics";
-import Base from "@/components/sections/Base";
-import Commerce from "@/components/sections/Commerce";
-import Network from "@/components/sections/Network";
-import Code from "@/components/sections/Code";
-import CRM from "@/components/sections/CRM";
 import Products from "@/components/Products";
 import Footer from "@/components/Footer";
 
@@ -44,13 +37,6 @@ const Index = () => {
       <main>
         <Hero />
         <QuickStart />
-        <Features />
-        <Analytics />
-        <Base />
-        <Commerce />
-        <Network />
-        <Code />
-        <CRM />
         <Products />
       </main>
       <Footer />
