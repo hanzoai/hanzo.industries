@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ProductsMenu } from "./navigation/ProductsMenu";
 import { SolutionsMenu } from "./navigation/SolutionsMenu";
-import { ResourcesMenu } from "./navigation/ResourcesMenu";
 import { MobileMenu } from "./navigation/MobileMenu";
 
 const Navbar = () => {
@@ -40,13 +39,9 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             <ProductsMenu />
             <SolutionsMenu />
-            <ResourcesMenu />
 
             <a href="https://docs.hanzo.ai" className="text-gray-300 hover:text-white transition-colors">
               Docs
-            </a>
-            <a href="/team" className="text-gray-300 hover:text-white transition-colors">
-              Team
             </a>
 
             <div className="flex items-center space-x-3">
@@ -55,15 +50,15 @@ const Navbar = () => {
                 size="sm"
                 className="text-white border-white hover:bg-white/10"
               >
-                <a href="https://console.hanzo.ai">
-                  Console
+                <a href="https://auth.hanzo.ai/login">
+                  Login
                 </a>
               </Button>
               <Button 
                 size="sm" 
                 className="bg-white text-black hover:bg-gray-100"
               >
-                <a href="https://auth.hanzo.ai/">
+                <a href="https://auth.hanzo.ai/signup">
                   Signup
                 </a>
               </Button>
