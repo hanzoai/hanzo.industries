@@ -10,8 +10,29 @@ import Team from "./pages/Team";
 import Solutions from "./pages/Solutions";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
+import { Blocks, Code2, Bot, MessageSquare, Database, ChartBar, Terminal } from "lucide-react";
+import ProductPage from "./components/ProductPage";
 
 const queryClient = new QueryClient();
+
+const productPages = [
+  {
+    path: "hanzo-app",
+    icon: Blocks,
+    title: "Hanzo App",
+    description: "Design, Engineer, and Market AI-powered applications with our unified platform.",
+    features: [
+      "Build and deploy applications with ease",
+      "Integrated development environment",
+      "Real-time collaboration tools",
+      "AI-powered development assistance",
+      "Automated testing and deployment",
+      "Performance monitoring and optimization"
+    ],
+    documentation: "https://docs.hanzo.ai/app"
+  },
+  // ... Add similar configurations for other products
+];
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -26,6 +47,21 @@ const App = () => (
           <Route path="/solutions" element={<Solutions />} />
           <Route path="/install" element={<Install />} />
           <Route path="/install.sh" element={<Install />} />
+          {productPages.map((product) => (
+            <Route
+              key={product.path}
+              path={`/products/${product.path}`}
+              element={
+                <ProductPage
+                  icon={product.icon}
+                  title={product.title}
+                  description={product.description}
+                  features={product.features}
+                  documentation={product.documentation}
+                />
+              }
+            />
+          ))}
           <Route path="/index.html" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
