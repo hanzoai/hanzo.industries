@@ -6,29 +6,29 @@ import { Button } from "@/components/ui/button";
 const quickApps = [
   {
     icon: <Bot className="h-6 w-6" />,
-    title: "AI Chat Assistant",
-    description: "Launch your own ChatGPT-style AI assistant",
+    title: "AI & Analytics",
+    description: "Transform your business with intelligent solutions and real-time insights.",
     glowColor: "group-hover:shadow-[0_0_30px_-5px_rgba(96,165,250,0.3)]",
     borderColor: "group-hover:border-blue-400/30",
   },
   {
     icon: <ShoppingCart className="h-6 w-6" />,
-    title: "E-commerce Store",
-    description: "Start selling products online in minutes",
+    title: "Digital Commerce",
+    description: "Build and scale your digital business with our comprehensive platform.",
     glowColor: "group-hover:shadow-[0_0_30px_-5px_rgba(74,222,128,0.3)]",
     borderColor: "group-hover:border-green-400/30",
   },
   {
     icon: <AppWindow className="h-6 w-6" />,
-    title: "Web3 dApp",
-    description: "Build a decentralized application",
+    title: "Cloud Solutions",
+    description: "Leverage cloud-native architecture for scalable applications.",
     glowColor: "group-hover:shadow-[0_0_30px_-5px_rgba(167,139,250,0.3)]",
     borderColor: "group-hover:border-purple-400/30",
   },
   {
     icon: <Rocket className="h-6 w-6" />,
-    title: "Custom App",
-    description: "Start from scratch with our App Builder",
+    title: "Innovation Hub",
+    description: "Access cutting-edge tools and frameworks for rapid development.",
     glowColor: "group-hover:shadow-[0_0_30px_-5px_rgba(251,146,60,0.3)]",
     borderColor: "group-hover:border-orange-400/30",
   },
@@ -45,10 +45,10 @@ const QuickStart = () => {
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-display text-white mb-4">
-            Quick Launch Apps
+            Capabilities
           </h2>
           <p className="text-lg text-gray-400">
-            Get started quickly with our pre-built templates
+            Comprehensive solutions for modern enterprises
           </p>
         </motion.div>
 
@@ -75,7 +75,7 @@ const QuickStart = () => {
                   transition-all duration-300 hover:border-white/20"
                 variant="outline"
               >
-                Launch App
+                Learn More
                 <Rocket className="ml-2 h-4 w-4" />
               </Button>
             </motion.div>

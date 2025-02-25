@@ -33,9 +33,9 @@ const Hero = () => {
             transition={{ duration: 0.5 }}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display tracking-tight text-white"
           >
-            Build as fast
+            Let there be
             <span className="block bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
-              as you think
+              innovation
             </span>
           </motion.h1>
 
@@ -45,8 +45,7 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-6 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto"
           >
-            Design, Engineer, and Market AI-powered applications with our unified platform.
-            Featuring streaming AI, UI components, and a real-time database - everything you need to build modern apps.
+            Hanzo Industries is a global technology leader helping organizations unlock their full potential through innovative AI solutions and developer experience platforms.
           </motion.p>
 
           <motion.div
@@ -56,14 +55,14 @@ const Hero = () => {
             className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button size="lg" className="text-lg px-8 bg-white text-black hover:bg-gray-200">
-              <a href="https://hanzo.app">Launch App</a>
+              <a href="https://console.hanzo.ai">Get Started</a>
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="text-lg px-8 text-white border-white/20 bg-white/5 hover:bg-white/10"
             >
-              <a href="https://docs.hanzo.sh">Read Docs</a>
+              <a href="https://docs.hanzo.ai">Learn More</a>
             </Button>
           </motion.div>
         </div>
@@ -85,7 +84,7 @@ const Hero = () => {
                   <Info className="text-gray-400 hover:text-blue-400 cursor-help w-4 h-4" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Docker will be automatically installed if not present on your system. Cannot be run inside a container.</p>
+                  <p>One command to install the complete Hanzo development platform.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -103,7 +102,7 @@ const Hero = () => {
             </button>
           </div>
           <div className="text-sm text-gray-400">
-            <p>One command to install the complete Hanzo development platform. Compatible with Mac (Intel & Apple Silicon) and Linux systems.</p>
+            <p>Instant setup for Mac (Intel & Apple Silicon) and Linux systems.</p>
           </div>
         </motion.div>
       </div>

@@ -11,11 +11,7 @@ import Network from "@/components/sections/Network";
 import Code from "@/components/sections/Code";
 import CRM from "@/components/sections/CRM";
 import Products from "@/components/Products";
-import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
-import HeroPoem from "@/components/HeroPoem";
-import TeamSlack from "@/components/TeamSlack";
-import LastSupper from "@/components/LastSupper";
 
 const Index = () => {
   useEffect(() => {
@@ -49,16 +45,12 @@ const Index = () => {
         <Hero />
         <QuickStart />
         <Features />
-        <TeamSlack />
         <Analytics />
         <Base />
         <Commerce />
         <Network />
         <Code />
         <CRM />
-        <Testimonials />
-        <LastSupper members={[]} />
-        <HeroPoem />
         <Products />
       </main>
       <Footer />
