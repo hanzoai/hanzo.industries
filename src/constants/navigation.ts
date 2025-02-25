@@ -1,21 +1,20 @@
-
 export const products = [
   {
-    title: "DX Platform",
+    title: "Developer Experience",
     items: [
-      "Hanzo App",
-      "Hanzo Code",
-      "Hanzo Bot",
-      "Hanzo Works"
+      {
+        name: "Hanzo App",
+        description: "Build and deploy full-featured applications with our AI-powered App Builder"
+      },
+      {
+        name: "Hanzo Code",
+        description: "Advanced code editor with embedded AI assistance"
+      },
+      {
+        name: "Hanzo Dev",
+        description: "Your personal AI engineer for development and testing"
+      }
     ]
-  },
-  {
-    title: "Managed Infrastructure",
-    items: ["Analytics", "Marketing", "Payments"]
-  },
-  {
-    title: "OpenSource",
-    items: ["Hanzo.js", "Engine", "Shop.js"]
   }
 ];
 
