@@ -14,7 +14,7 @@ const Terms = () => {
           <div className="space-y-8">
             <section>
               <h2>1. Agreement to Terms</h2>
-              <p>By accessing or using Hanzo's services, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+              <p>By accessing or using Hanzo's services, you agree to be bound by these Terms of Service and all applicable laws and regulations. These terms constitute a legal agreement between you and Hanzo Industries, Inc. ("Hanzo", "we", "us", or "our").</p>
             </section>
 
             <section>
@@ -44,7 +44,10 @@ const Terms = () => {
                 <li>Provide valid payment information</li>
                 <li>Pay all charges at the prices in effect when incurred</li>
                 <li>Pay any applicable taxes</li>
+                <li>Keep your billing information current and accurate</li>
+                <li>Authorize us to share your payment information with Stripe</li>
               </ul>
+              <p>All payment information is processed and stored securely by Stripe. Hanzo does not store your full payment details.</p>
             </section>
 
             <section>
@@ -60,6 +63,16 @@ const Terms = () => {
             <section>
               <h2>8. Modifications to Terms</h2>
               <p>We reserve the right to modify these terms at any time. Continued use of the service after such modifications constitutes acceptance of the updated terms.</p>
+            </section>
+
+            <section>
+              <h2>9. Contact Information</h2>
+              <p>For any questions about these Terms of Service, please contact us at:</p>
+              <ul>
+                <li>Email: help@hanzo.industries</li>
+                <li>Company: Hanzo Industries, Inc.</li>
+                <li>For legal notices: legal@hanzo.industries</li>
+              </ul>
             </section>
           </div>
         </div>

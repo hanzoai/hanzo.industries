@@ -13,6 +13,16 @@ const Privacy = () => {
           
           <div className="space-y-8">
             <section>
+              <h2>Data Controller</h2>
+              <p>Hanzo Industries, Inc. ("Hanzo", "we", "us", or "our") is the data controller for the personal information we process under this policy.</p>
+              <p>For privacy-related inquiries, you can reach our Data Protection Officer (DPO) at:</p>
+              <ul>
+                <li>Email: dpo@hanzo.industries</li>
+                <li>General Support: help@hanzo.industries</li>
+              </ul>
+            </section>
+
+            <section>
               <h2>1. Information We Collect</h2>
               <p>We collect the following types of information:</p>
               <ul>
@@ -32,6 +42,7 @@ const Privacy = () => {
                 <li>Personalizing your experience</li>
                 <li>Marketing and advertising purposes</li>
                 <li>Analytics and service optimization</li>
+                <li>Processing payments and maintaining financial records</li>
               </ul>
             </section>
 
@@ -44,6 +55,7 @@ const Privacy = () => {
                 <li>Marketing partners</li>
                 <li>Law enforcement when required by law</li>
               </ul>
+              <p>When you make a payment, your payment information is processed securely by Stripe. Hanzo does not store your full payment details.</p>
             </section>
 
             <section>
@@ -72,16 +84,27 @@ const Privacy = () => {
                 <li>Object to data processing</li>
                 <li>Export your data</li>
               </ul>
+              <p>To exercise these rights, please contact our DPO at dpo@hanzo.industries</p>
             </section>
 
             <section>
               <h2>7. Security</h2>
-              <p>We implement appropriate security measures to protect your information from unauthorized access, alteration, or destruction.</p>
+              <p>We implement appropriate security measures to protect your information from unauthorized access, alteration, or destruction. This includes using industry-standard encryption for data transmission and storage.</p>
             </section>
 
             <section>
               <h2>8. Updates to Privacy Policy</h2>
               <p>We may update this policy periodically. We will notify you of significant changes via email or service notifications.</p>
+            </section>
+
+            <section>
+              <h2>9. Contact Information</h2>
+              <p>For any questions about our Privacy Policy or data practices:</p>
+              <ul>
+                <li>Data Protection Officer: dpo@hanzo.industries</li>
+                <li>General Support: help@hanzo.industries</li>
+                <li>Company: Hanzo Industries, Inc.</li>
+              </ul>
             </section>
           </div>
         </div>
