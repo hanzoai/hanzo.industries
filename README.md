@@ -1,14 +1,10 @@
-# hanzo.ai
-
-## Project info
-
-**URL**: https://hanzo.app/projects/ee887e68-a27e-43a1-88d1-813320af7a8c
+# hanzo.industries
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
 
-**Use Lovable**
+**Use Hanzo App**
 
 Simply visit the [Hanzo App](https://hanzo.app/projects/ee887e68-a27e-43a1-88d1-813320af7a8c) and start prompting.
 
@@ -66,4 +62,4 @@ Simply open [Hanzo](https://hanzo.app/projects/ee887e68-a27e-43a1-88d1-813320af7
 
 ## I want to use a custom domain - is that possible?
 
-Yes! If you want this let us know. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Yes! Use Hanzo.App.
