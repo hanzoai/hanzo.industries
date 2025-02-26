@@ -11,6 +11,7 @@ import Solutions from "./pages/Solutions";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
 import Status from "./pages/Status";
+import Security from "./pages/Security";
 import { Blocks, Code2, Bot } from "lucide-react";
 import ProductPage from "./components/ProductPage";
 
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/install" element={<Install />} />
           <Route path="/install.sh" element={<Install />} />
           <Route path="/status" element={<Status />} />
+          <Route path="/security" element={<Security />} />
           {productPages.map((product) => (
             <Route
               key={product.path}
