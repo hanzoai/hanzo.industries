@@ -12,6 +12,8 @@ import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
 import Status from "./pages/Status";
 import Security from "./pages/Security";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import { Blocks, Code2, Bot } from "lucide-react";
 import ProductPage from "./components/ProductPage";
 
@@ -51,6 +53,8 @@ const App = () => (
           <Route path="/install.sh" element={<Install />} />
           <Route path="/status" element={<Status />} />
           <Route path="/security" element={<Security />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
           {productPages.map((product) => (
             <Route
               key={product.path}
