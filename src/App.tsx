@@ -5,12 +5,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
+import Auth from "./pages/Auth";
 import Pricing from "./pages/Pricing";
-import Team from "./pages/Team";
 import Solutions from "./pages/Solutions";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
-import { Blocks, Code2, Bot, MessageSquare, Database, ChartBar, Terminal } from "lucide-react";
+import { Blocks, Code2, Bot } from "lucide-react";
 import ProductPage from "./components/ProductPage";
 
 const queryClient = new QueryClient();
@@ -42,8 +42,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/team" element={<Team />} />
           <Route path="/solutions" element={<Solutions />} />
           <Route path="/install" element={<Install />} />
           <Route path="/install.sh" element={<Install />} />

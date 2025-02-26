@@ -1,6 +1,10 @@
 
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -8,6 +12,40 @@ interface MobileMenuProps {
 }
 
 export const MobileMenu = ({ isOpen, onToggle }: MobileMenuProps) => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate("/");
+      toast({
+        title: "Signed out successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error signing out",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <>
       <div className="md:hidden">
@@ -22,8 +60,8 @@ export const MobileMenu = ({ isOpen, onToggle }: MobileMenuProps) => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-black/90 backdrop-blur-md border-b border-gray-800">
+        <div className="md:hidden fixed inset-x-0 top-16 bg-black/90 backdrop-blur-md border-b border-gray-800">
+          <div className="px-2 pt-2 pb-3 space-y-1">
             <a
               href="#products"
               className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
@@ -37,36 +75,41 @@ export const MobileMenu = ({ isOpen, onToggle }: MobileMenuProps) => {
               Solutions
             </a>
             <a
-              href="#resources"
-              className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
-            >
-              Resources
-            </a>
-            <a
               href="https://docs.hanzo.ai"
               className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
             >
               Docs
             </a>
-            <a
-              href="/pricing"
-              className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
-            >
-              Pricing
-            </a>
-            <a
-              href="/team"
-              className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
-            >
-              Team
-            </a>
+            
             <div className="px-3 py-2 space-y-2">
-              <Button variant="ghost" className="w-full text-white hover:bg-white/10">
-                Login
-              </Button>
-              <Button className="w-full bg-white text-black hover:bg-gray-100">
-                Signup
-              </Button>
+              {user ? (
+                <>
+                  <div className="text-gray-300 mb-2">{user.email}</div>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full text-white hover:bg-white/10"
+                    onClick={handleSignOut}
+                  >
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full text-white hover:bg-white/10"
+                    onClick={() => navigate("/auth")}
+                  >
+                    Login
+                  </Button>
+                  <Button 
+                    className="w-full bg-white text-black hover:bg-gray-100"
+                    onClick={() => navigate("/auth")}
+                  >
+                    Signup
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
