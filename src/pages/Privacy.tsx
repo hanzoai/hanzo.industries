@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -19,6 +18,11 @@ const Privacy = () => {
               <ul>
                 <li>Email: dpo@hanzo.industries</li>
                 <li>General Support: help@hanzo.industries</li>
+              </ul>
+              <p>Our registered agent information:</p>
+              <ul>
+                <li>Registered Agent: Legalinc Corporate Services Inc.</li>
+                <li>Address: 131 Continental Dr, Suite 305, Newark, DE 19713 US</li>
               </ul>
             </section>
 
@@ -104,6 +108,8 @@ const Privacy = () => {
                 <li>Data Protection Officer: dpo@hanzo.industries</li>
                 <li>General Support: help@hanzo.industries</li>
                 <li>Company: Hanzo Industries, Inc.</li>
+                <li>Registered Agent: Legalinc Corporate Services Inc.</li>
+                <li>Address: 131 Continental Dr, Suite 305, Newark, DE 19713 US</li>
               </ul>
             </section>
           </div>
