@@ -27,9 +27,15 @@ const Auth = () => {
         if (error) throw error;
         navigate("/");
       } else {
+        // Get the current URL for redirect
+        const redirectTo = `${window.location.origin}/auth`;
+        
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: redirectTo,
+          },
         });
         if (error) throw error;
         toast({
