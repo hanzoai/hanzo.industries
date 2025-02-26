@@ -4,10 +4,16 @@ import { Button } from "@/components/ui/button";
 import { ProductsMenu } from "./navigation/ProductsMenu";
 import { SolutionsMenu } from "./navigation/SolutionsMenu";
 import { MobileMenu } from "./navigation/MobileMenu";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +22,36 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate("/");
+      toast({
+        title: "Signed out successfully",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error signing out",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <nav
@@ -39,29 +75,44 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             <ProductsMenu />
             <SolutionsMenu />
-
             <a href="https://docs.hanzo.ai" className="text-gray-300 hover:text-white transition-colors">
               Docs
             </a>
 
             <div className="flex items-center space-x-3">
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="text-white border-white hover:bg-white/10"
-              >
-                <a href="https://auth.hanzo.ai/login">
-                  Login
-                </a>
-              </Button>
-              <Button 
-                size="sm" 
-                className="bg-white text-black hover:bg-gray-100"
-              >
-                <a href="https://auth.hanzo.ai/signup">
-                  Signup
-                </a>
-              </Button>
+              {user ? (
+                <>
+                  <span className="text-gray-300">{user.email}</span>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="text-white border-white hover:bg-white/10"
+                    onClick={handleSignOut}
+                  >
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="text-white border-white hover:bg-white/10"
+                    onClick={() => navigate("/auth")}
+                  >
+                    Login
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-white text-black hover:bg-gray-100"
+                    onClick={() => {
+                      navigate("/auth");
+                    }}
+                  >
+                    Signup
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
