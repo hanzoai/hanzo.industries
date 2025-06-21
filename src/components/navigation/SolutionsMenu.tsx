@@ -30,8 +30,9 @@ export const SolutionsMenu = () => {
       <div className="grid grid-cols-2 gap-4">
         {displayItems.map((item: string) => {
           const Icon = getIcon(item);
+          const href = item === "Aerospace and Defense" ? "/defense" : "#";
           return (
-            <a href="#" key={item} className="flex items-start space-x-3 group">
+            <a href={href} key={item} className="flex items-start space-x-3 group">
               <Icon className="h-5 w-5 text-gray-400 group-hover:text-white mt-1" strokeWidth={1.5} />
               <div>
                 <div className="text-gray-300 group-hover:text-white font-medium">{item}</div>

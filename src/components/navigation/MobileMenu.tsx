@@ -37,10 +37,11 @@ export const MobileMenu = ({ isOpen, onToggle }: MobileMenuProps) => {
       toast({
         title: "Signed out successfully",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Unknown error";
       toast({
         title: "Error signing out",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     }
@@ -73,6 +74,18 @@ export const MobileMenu = ({ isOpen, onToggle }: MobileMenuProps) => {
               className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
             >
               Solutions
+            </a>
+            <a
+              href="/defense"
+              className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
+            >
+              Defense
+            </a>
+            <a
+              href="/contact"
+              className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
+            >
+              Contact
             </a>
             <a
               href="https://docs.hanzo.ai"
