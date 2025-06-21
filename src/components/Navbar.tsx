@@ -44,10 +44,11 @@ const Navbar = () => {
       toast({
         title: "Signed out successfully",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Unknown error";
       toast({
         title: "Error signing out",
-        description: error.message,
+        description: message,
         variant: "destructive",
       });
     }
@@ -75,6 +76,12 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             <ProductsMenu />
             <SolutionsMenu />
+            <a href="/defense" className="text-gray-300 hover:text-white transition-colors">
+              Defense
+            </a>
+            <a href="/contact" className="text-gray-300 hover:text-white transition-colors">
+              Contact
+            </a>
             <a href="https://docs.hanzo.ai" className="text-gray-300 hover:text-white transition-colors">
               Docs
             </a>

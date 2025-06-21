@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Pricing from "./pages/Pricing";
 import Solutions from "./pages/Solutions";
+import Defense from "./pages/Defense";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
 import Status from "./pages/Status";
@@ -49,6 +51,8 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/defense" element={<Defense />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/install" element={<Install />} />
           <Route path="/install.sh" element={<Install />} />
           <Route path="/status" element={<Status />} />
