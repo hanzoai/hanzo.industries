@@ -23,22 +23,9 @@ interface ModelPricing {
   };
 }
 
-interface ThirdPartyModel {
-  name: string;
-  features: string[];
-  contextWindow: number;
-  pricing: {
-    input: number;
-    output: number;
-    cacheRead: number | null;
-    cacheWrite: number | null;
-  };
-}
-
 interface PricingData {
   updated: string;
   hanzoModels: ModelPricing[];
-  thirdPartyModels: ThirdPartyModel[];
 }
 
 function extractContext(features: string[]): string {
@@ -112,7 +99,7 @@ const Pricing = () => {
         "Everything in Developer",
         "500 requests/min",
         "1M tokens/min",
-        "Access to all Zen + third-party models",
+        "Access to all Zen models",
         "Hanzo Dev CLI tools",
         "Email support",
         "Usage analytics dashboard",
@@ -158,7 +145,6 @@ const Pricing = () => {
   ];
 
   const hanzoModels = pricingData?.hanzoModels?.slice().sort(tierSort) ?? [];
-  const thirdPartyModels = pricingData?.thirdPartyModels ?? [];
 
   return (
     <div className={cn("min-h-screen transition-colors duration-300", isDarkMode ? "bg-black text-white" : "bg-white text-black")}>
@@ -410,53 +396,34 @@ const Pricing = () => {
             )}
           </motion.div>
 
-          {/* Third-Party Models (live from API) */}
-          {thirdPartyModels.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="mb-20"
+          {/* Cloud reference for third-party models */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className={cn(
+              "mb-20 rounded-xl border p-8 text-center",
+              isDarkMode ? "border-white/10 bg-white/5" : "border-black/10 bg-black/5"
+            )}
+          >
+            <h3 className="text-xl font-semibold mb-2">Need third-party models?</h3>
+            <p className={cn("mb-4", isDarkMode ? "text-white/50" : "text-black/50")}>
+              Access 100+ models from Anthropic, OpenAI, Google, and more via the Hanzo AI Cloud.
+            </p>
+            <a
+              href="https://hanzo.ai/pricing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-colors",
+                isDarkMode ? "bg-white text-black hover:bg-white/90" : "bg-black text-white hover:bg-black/90"
+              )}
             >
-              <h2 className="text-3xl font-bold mb-2">Third-Party Models</h2>
-              <p className={cn("mb-8", isDarkMode ? "text-white/50" : "text-black/50")}>
-                100+ additional models via the Hanzo LLM Gateway. Same API, same SDK.
-              </p>
-
-              <div className="overflow-x-auto">
-                <table className={cn("w-full border rounded-lg overflow-hidden", isDarkMode ? "border-white/10" : "border-black/10")}>
-                  <thead className={cn(isDarkMode ? "bg-white/5" : "bg-black/5")}>
-                    <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Model</th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">Context</th>
-                      <th className="px-6 py-4 text-right text-sm font-semibold">Input / 1M tok</th>
-                      <th className="px-6 py-4 text-right text-sm font-semibold">Output / 1M tok</th>
-                    </tr>
-                  </thead>
-                  <tbody className={cn("divide-y", isDarkMode ? "divide-white/10" : "divide-black/10")}>
-                    {thirdPartyModels.map((m) => (
-                      <tr key={m.name} className={cn("transition-colors", isDarkMode ? "hover:bg-white/5" : "hover:bg-black/5")}>
-                        <td className="px-6 py-4 font-medium">{m.name}</td>
-                        <td className={cn("px-6 py-4 text-sm", isDarkMode ? "text-white/50" : "text-black/50")}>
-                          {m.contextWindow ? `${Math.round(m.contextWindow / 1000)}K` : "—"}
-                        </td>
-                        <td className={cn("px-6 py-4 text-right font-mono text-sm", isDarkMode ? "text-white/70" : "text-black/70")}>
-                          {formatPrice(m.pricing.input)}
-                        </td>
-                        <td className={cn("px-6 py-4 text-right font-mono text-sm", isDarkMode ? "text-white/70" : "text-black/70")}>
-                          {formatPrice(m.pricing.output)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <p className={cn("text-sm mt-4", isDarkMode ? "text-white/40" : "text-black/40")}>
-                * Third-party model pricing includes a 20% gateway markup. Prices synced daily from upstream providers.
-              </p>
-            </motion.div>
-          )}
+              View Cloud Pricing
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </motion.div>
 
           {/* FAQ Section */}
           <motion.div
