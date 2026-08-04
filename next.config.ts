@@ -24,9 +24,10 @@ const config: NextConfig = {
   output: 'export',
   images: { unoptimized: true },
   trailingSlash: false,
-  // ONE typechecker, and it is the fast one: `prebuild` runs `tsgo --noEmit`
-  // (TypeScript 7 native, ~3s here against tsc's ~21s) before every build, so
-  // letting Next start a second tsc pass would only re-check the same tree.
+  // ONE typechecker, and it is the fast one: `prebuild` runs `tsc --noEmit`
+  // before every build. On TypeScript 7 that `tsc` IS the native Go compiler —
+  // one binary, no separate `tsgo` — so letting Next start a second in-process
+  // pass would only re-check the same tree, slower.
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
   transpilePackages: ['@hanzo/gui', '@hanzo/ui', 'react-native-web', ...guiPackages()],
