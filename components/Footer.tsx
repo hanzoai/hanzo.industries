@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Check, Github, FileText, Award, ExternalLink } from 'lucide-react'
+import { Check, FileText, Award, ExternalLink } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands'
 import Logo from './Logo'
 import { cn } from '@hanzo/ui'
 import site from '@/site.config'

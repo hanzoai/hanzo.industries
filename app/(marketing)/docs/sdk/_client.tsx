@@ -4,16 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button, cn } from '@hanzo/ui'
-import {
-  ArrowLeft,
-  ArrowRight,
-  BookOpen,
-  Check,
-  Copy,
-  ExternalLink,
-  Github,
-  Terminal,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Check, Copy, ExternalLink, Terminal } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands';
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                              */

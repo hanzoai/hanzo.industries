@@ -4,22 +4,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button, cn } from '@hanzo/ui'
 import { HanzoLogo } from "@hanzo/logo/react";
-import {
-  Download,
-  Mail,
-  ExternalLink,
-  FileText,
-  Palette,
-  Building2,
-  Calendar,
-  Globe,
-  Phone,
-  Users,
-  Award,
-  Rocket,
-  BookOpen,
-  Github,
-} from "lucide-react";
+import { Download, Mail, ExternalLink, FileText, Palette, Building2, Calendar, Globe, Phone, Users, Award, Rocket, BookOpen } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands';
 
 // Comprehensive press releases - chronological history
 const pressReleases = [
