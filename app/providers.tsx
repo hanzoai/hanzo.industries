@@ -34,7 +34,9 @@ function Themed({ children }: { children: ReactNode }) {
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+    // @hanzo/design's `:root` is the dark palette and `.light` its counterpart,
+    // so the default names the theme the tokens already carry.
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
       <Themed>
         <Analytics>{children}</Analytics>
       </Themed>

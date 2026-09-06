@@ -158,6 +158,50 @@ for (const theme of ['light', 'dark']) {
   }
 }
 
+/* ── the served frame, before hydration ────────────────────────────────────
+ * The checks above read the hydrated page, so none of them sees what a reader
+ * meets first. Disabling JavaScript freezes that first frame; the assertion is
+ * that it equals the settled one, not that it is legible — both palettes read
+ * fine, which is why a contrast check never catches the flip. */
+const paint = () =>
+  [...document.querySelectorAll('[data-slot="button"], [data-slot="select-trigger"]')]
+    .filter((e) => e.getClientRects().length)
+    .slice(0, 6)
+    .map((e) => {
+      const cs = getComputedStyle(e)
+      return `${e.dataset.slot}:${cs.backgroundColor}/${cs.color}/${cs.borderTopColor}`
+    })
+    .join(' | ')
+
+for (const path of ['/', '/contact', '/team']) {
+  const settled = await browser.newContext({ viewport: { width: 1280, height: 900 } })
+  await settled.addInitScript(() => localStorage.setItem('theme', 'dark'), null)
+  const a = await settled.newPage()
+  await a.goto(BASE + path, { waitUntil: 'networkidle' })
+  await a.waitForTimeout(400)
+  const hydrated = await a.evaluate(paint)
+  const hydratedHtml = await a.evaluate(() => document.documentElement.className)
+  await settled.close()
+
+  const frozen = await browser.newContext({ viewport: { width: 1280, height: 900 }, javaScriptEnabled: false })
+  const c = await frozen.newPage()
+  await c.goto(BASE + path, { waitUntil: 'load' })
+  await c.waitForTimeout(150)
+  const served = await c.evaluate(paint)
+  const servedHtml = await c.evaluate(() => document.documentElement.className)
+  await c.screenshot({ path: `${OUT}/nojs-1280${path.replace(/\//g, '_') || '_root'}.png` })
+  await frozen.close()
+
+  const problems = []
+  if (!servedHtml.trim()) problems.push('served markup names no theme — gui falls back to its light palette')
+  if (served !== hydrated) problems.push(`controls repaint on hydration\n        served   ${served}\n        hydrated ${hydrated}`)
+  if (problems.length) bad++
+  console.log(
+    `${problems.length ? 'BAD ' : 'ok  '} nojs  1280  ${path.padEnd(22)} served html.class="${servedHtml}" vs hydrated "${hydratedHtml}"` +
+      (problems.length ? `\n      ${problems.join('\n      ')}` : '')
+  )
+}
+
 await browser.close()
 console.log(bad ? `FAILURES: ${bad}` : 'ALL GREEN')
 process.exit(bad ? 1 : 0)

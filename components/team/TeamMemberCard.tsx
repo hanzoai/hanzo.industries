@@ -2,7 +2,8 @@
 
 import { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, MessageSquare, Rocket } from "lucide-react";
+import { MessageSquare, Rocket } from 'lucide-react'
+import { Github, Linkedin, Twitter } from '@hanzo/ui/brands';
 import { cn } from '@hanzo/ui'
 
 interface TeamMemberCardProps {

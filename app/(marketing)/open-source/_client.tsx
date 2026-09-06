@@ -3,26 +3,8 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@hanzo/ui'
-import {
-  Github,
-  ArrowRight,
-  ExternalLink,
-  Check,
-  Layers,
-  Box,
-  Cpu,
-  Code2,
-  Globe,
-  Star,
-  GitBranch,
-  Wallet,
-  FileSearch,
-  Eye,
-  Users,
-  Link2,
-  DollarSign,
-  BarChart3,
-} from 'lucide-react'
+import { ArrowRight, ExternalLink, Check, Layers, Box, Cpu, Code2, Globe, Star, GitBranch, Wallet, FileSearch, Eye, Users, Link2, DollarSign, BarChart3 } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands'
 import site from '@/site.config'
 
 /* ------------------------------------------------------------------ */

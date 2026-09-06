@@ -3,23 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button, cn } from '@hanzo/ui'
-import {
-  ArrowRight,
-  ExternalLink,
-  Github,
-  Brain,
-  Cpu,
-  Zap,
-  Code,
-  Eye,
-  Mic,
-  Sparkles,
-  Layers,
-  Network,
-  Server,
-  Search,
-  Shield,
-} from "lucide-react";
+import { ArrowRight, ExternalLink, Brain, Cpu, Zap, Code, Eye, Mic, Sparkles, Layers, Network, Server, Search, Shield } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands';
 import type { FamilyData } from "./page";
 
 // Icon lookup by family ID — icons are client-only (React components)

@@ -39,7 +39,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    // next-themes writes `dark`/`light` pre-paint; @hanzo/gui writes `t_dark`/
+    // `t_light` on mount, a frame later, and falls back to its light palette
+    // when neither is named. Naming both makes the served frame already right;
+    // a reader whose stored preference is light has them rewritten on mount.
+    <html lang="en" className="dark t_dark" suppressHydrationWarning>
       <body>
         <Providers>{children}</Providers>
       </body>

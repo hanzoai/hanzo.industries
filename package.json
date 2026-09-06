@@ -14,26 +14,27 @@
     "postbuild": "gui-css-check out"
   },
   "dependencies": {
-    "@hanzo/design": "^0.4.6",
-    "@hanzo/event": "^0.3.9",
-    "@hanzo/gui": "^8.0.2",
-    "@hanzo/logo": "^1.0.14",
-    "@hanzo/ui": "^8.0.47",
-    "@zenlm/models": "^1.0.3",
-    "framer-motion": "^12.4.2",
-    "lucide-react": "^0.462.0",
-    "next": "^15.1.0",
-    "next-themes": "^0.4.6",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-native-svg": "^15.15.5",
-    "react-native-web": "^0.21.2"
+    "@hanzo/design": "catalog:",
+    "@hanzo/event": "catalog:",
+    "@hanzo/gui": "catalog:",
+    "@hanzo/logo": "catalog:",
+    "@hanzo/ui": "catalog:",
+    "@zenlm/models": "catalog:",
+    "framer-motion": "catalog:",
+    "lucide-react": "catalog:",
+    "next": "catalog:",
+    "next-themes": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-native-svg": "catalog:",
+    "react-native-web": "catalog:"
   },
   "devDependencies": {
-    "@playwright/test": "^1.50.0",
-    "@types/node": "^22.5.5",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "typescript": "~5.9.3"
-  }
+    "@playwright/test": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@11.24.0"
 }

@@ -19,7 +19,6 @@ const config = {
   // every build, so letting Next start a second in-process pass would only
   // re-check what is already checked, slower.
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
   // The two packages this app imports. Their own `@hanzogui/*` dependencies are
   // published compiled and are NOT listed: under pnpm they are not in this
   // project's `node_modules/@hanzogui` at all, so a directory scan for them
@@ -27,17 +26,28 @@ const config = {
   transpilePackages: ['@hanzo/gui', '@hanzo/ui', 'react-native-web'],
   webpack: (config) => {
     config.resolve.alias = { ...config.resolve.alias, 'react-native$': 'react-native-web' }
+    config.resolve.extensions = ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', ...config.resolve.extensions]
+    return config
+  },
+  turbopack: {
+    resolveAlias: { 'react-native': 'react-native-web' },
     // `.web.*` FIRST is what makes the react-native ecosystem resolve its web
-    // variants; without it a package resolves its native entry and webpack chokes
-    // on React Native's Flow source.
-    config.resolve.extensions = [
+    // variants; without it a package resolves its native entry and the compiler
+    // chokes on React Native's Flow source. The list replaces the defaults, so
+    // it restates them.
+    resolveExtensions: [
       '.web.tsx',
       '.web.ts',
       '.web.jsx',
       '.web.js',
-      ...config.resolve.extensions,
-    ]
-    return config
+      '.mdx',
+      '.tsx',
+      '.ts',
+      '.jsx',
+      '.js',
+      '.mjs',
+      '.json',
+    ],
   },
 }
 

@@ -7,8 +7,9 @@ import { Button, cn } from '@hanzo/ui'
 import {
   ChevronDown, ExternalLink, Menu, X, Bot, Code2, Cloud, Cpu, MessageSquare,
   BookOpen, Microscope, Brain, Shield, Network, Boxes, FlaskConical, FileText,
-  Github, Sparkles, Video, Box, Zap, Server, Smartphone,
+  Sparkles, Video, Box, Zap, Server, Smartphone,
 } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands'
 import { motion, AnimatePresence } from 'framer-motion'
 import NavbarContainer from './navigation/NavbarContainer'
 import Logo from './Logo'

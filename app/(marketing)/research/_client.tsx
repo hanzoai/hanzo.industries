@@ -5,19 +5,8 @@ import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Button, cn } from '@hanzo/ui'
-import {
-  ArrowRight,
-  ExternalLink,
-  Github,
-  FileText,
-  Brain,
-  Shield,
-  Cpu,
-  Network,
-  Sparkles,
-  Search,
-  X
-} from "lucide-react";
+import { ArrowRight, ExternalLink, FileText, Brain, Shield, Cpu, Network, Sparkles, Search, X } from 'lucide-react'
+import { Github } from '@hanzo/ui/brands'
 
 // Organization metadata for display
 const orgMeta = {
