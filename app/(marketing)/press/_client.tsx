@@ -223,10 +223,10 @@ export default function PageClient() {
               <div className={cn("hz-p-5 hz-r-lg hz-bordered", "hz-bg-surface")}>
                 <h3 className="hz-w-semibold hz-mb-4">Schedule Interview</h3>
                 <p className={cn("hz-t-sm hz-mb-4", "hz-fg")}>Book time with our communications team.</p>
-                <a href="https://cal.com/hanzo" target="_blank" rel="noopener noreferrer">
+                <a href="https://cal.hanzo.ai" target="_blank" rel="noopener noreferrer">
                   <Button size="sm" variant="outline" className="hz-w-full hz-gap-2">
                     <Calendar className="hz-sq-2" />
-                    Schedule via Cal.com
+                    Schedule Meeting
                   </Button>
                 </a>
               </div>

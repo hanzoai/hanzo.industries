@@ -90,7 +90,7 @@ export default function PageClient() {
         email: formData.email,
         notes: `${formData.company ? formData.company + " — " : ""}${formData.subject}\n\n${formData.message}`,
       });
-      window.open(`https://cal.com/hanzo/30min?${params.toString()}`, "_blank");
+      window.open(`https://cal.hanzo.ai/30min?${params.toString()}`, "_blank");
       setSubmitted(true);
     } finally {
       setIsSubmitting(false);
@@ -410,7 +410,7 @@ export default function PageClient() {
                   </div>
                   <div className="">
                     <iframe
-                      src="https://cal.com/hanzo/30min?embed=true&theme=dark"
+                      src="https://cal.hanzo.ai/30min?embed=true&theme=dark"
                       className="hz-w-full hz-h-full hz-border-none"
                       allow="payment"
                       title="Schedule a call with Hanzo"

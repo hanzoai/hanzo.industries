@@ -599,7 +599,7 @@ export default function PageClient() {
 
               <div className="hz-col-row hz-gap-4">
                 <a
-                  href="https://cal.com/hanzo/30min"
+                  href="https://cal.hanzo.ai/30min"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
@@ -822,7 +822,7 @@ export default function PageClient() {
             </p>
             <div className="hz-col-row hz-gap-4 hz-jc-center">
               <a
-                href="https://cal.com/hanzo/30min"
+                href="https://cal.hanzo.ai/30min"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
