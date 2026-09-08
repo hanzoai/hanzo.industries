@@ -529,7 +529,7 @@ export default function PageClient() {
                       </Button>
                     </Link>
                     <a
-                      href="https://cal.com/hanzo"
+                      href="https://cal.hanzo.ai"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
