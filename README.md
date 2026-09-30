@@ -36,7 +36,7 @@ app/
     page.tsx                  # Homepage (hero, stats, case studies)
     about/                    # Company overview, capabilities, stats
     ai-models/                # Full Zen model catalog (45+ models)
-    auth/                     # OAuth flow (hanzo.id)
+    auth/ login/              # forward to hanzo.ai/login
     blog/                     # Blog index
     capabilities/             # Capability deep-dives
       decentralized-ai/       # Decentralized AI capability
@@ -119,7 +119,7 @@ public/
 
 ## Key Features
 
-- **AI Chat Widget** -- Global chat with Zen model integration, SSE streaming, OAuth via hanzo.id
+- **AI Chat Widget** -- Global chat with Zen model integration, SSE streaming; past the free message it sends the visitor to Try Hanzo (hanzo.ai/login)
 - **Command Palette** -- Cmd+K quick navigation
 - **Monochrome Theme** -- Pure black/white/gray, light and dark modes via next-themes
 - **Static Export** -- Full SSG for GitHub Pages, zero server runtime
@@ -145,15 +145,12 @@ public/
 
 ## Deployment
 
-Static export to GitHub Pages via GitHub Actions.
+Static export to the Hanzo Sites plane via GitHub Actions.
 
-1. Push to `main` triggers `.github/workflows/deploy.yml`
+1. Push to `main` triggers `.github/workflows/deploy.yml` (runner label `linux-amd64`)
 2. Build runs `pnpm build` producing the `out/` directory
-3. `out/index.html` is copied to `out/404.html` for SPA client-side routing
-4. Smoke test verifies the build serves without errors
-5. Deployed to GitHub Pages with custom domain `hanzo.industries`
-
-The `CNAME` file in `public/` points to `hanzo.industries`.
+3. Gates: smoke test, the publishable keys resolve, no page navigates to hanzo.id
+4. `hanzoai/ci`'s `site` action publishes project `hanzo-industries`, which the edge serves at `hanzo.industries`
 
 ## Development
 
