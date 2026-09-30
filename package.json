@@ -15,10 +15,10 @@
   },
   "dependencies": {
     "@hanzo/design": "^0.4.6",
-    "@hanzo/event": "^0.3.50",
+    "@hanzo/event": "^0.3.52",
     "@hanzo/gui": "^8.0.2",
     "@hanzo/logo": "^1.0.14",
-    "@hanzo/ui": "^8.27.35",
+    "@hanzo/ui": "^8.27.38",
     "@zenlm/models": "^1.0.3",
     "framer-motion": "^12.4.2",
     "lucide-react": "^0.462.0",
