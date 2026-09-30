@@ -176,7 +176,7 @@ pnpm exec playwright test
 | Hanzo Edge | [edge.hanzo.ai](https://edge.hanzo.ai) | Edge deployment |
 | Hanzo Cloud | [cloud.hanzo.ai](https://cloud.hanzo.ai) | Cloud console |
 | Hanzo Chat | [hanzo.bot](https://hanzo.bot) | AI chat interface |
-| LLM Gateway | [llm.hanzo.ai](https://llm.hanzo.ai) | LLM proxy (100+ providers) |
+| API | [api.hanzo.ai](https://docs.hanzo.ai/api) | One endpoint, every capability under `/v1/<capability>` (models at `/v1/chat/completions`) |
 | Zen Models | [huggingface.co/zenlm](https://huggingface.co/zenlm) | Model weights |
 | Lux Network | [lux.network](https://lux.network) | Blockchain infrastructure |
 | Zoo Foundation | [zoo.ngo](https://zoo.ngo) | Open AI research network |

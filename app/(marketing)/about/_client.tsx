@@ -211,7 +211,7 @@ export default function PageClient() {
                 { name: "hanzo.industries", description: "Enterprise & defense", href: "https://hanzo.industries" },
                 { name: "hanzo.network", description: "Confidential compute", href: "https://hanzo.network" },
                 { name: "cloud.hanzo.ai", description: "Cloud PaaS", href: "https://cloud.hanzo.ai" },
-                { name: "llm.hanzo.ai", description: "LLM gateway (100+ models)", href: "https://llm.hanzo.ai" },
+                { name: "api.hanzo.ai", description: "The API: 100+ models, identity, secrets", href: "https://docs.hanzo.ai/api" },
                 { name: "docs.hanzo.ai", description: "API documentation", href: "https://docs.hanzo.ai" },
               ].map((platform) => (
                 <a

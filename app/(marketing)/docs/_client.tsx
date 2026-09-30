@@ -84,7 +84,7 @@ const apis = [
   },
   {
     title: "LLM Gateway",
-    domain: "llm.hanzo.ai",
+    domain: "api.hanzo.ai/v1/chat/completions",
     description:
       "Unified proxy for 100+ LLM providers. OpenAI-compatible endpoint with auth, billing, and observability.",
     docs: "https://docs.hanzo.ai/api/llm",
@@ -92,7 +92,7 @@ const apis = [
   },
   {
     title: "IAM",
-    domain: "hanzo.id",
+    domain: "api.hanzo.ai/v1/iam",
     description:
       "Identity, authentication, OAuth 2.0, and OpenID Connect for all Hanzo services.",
     docs: "https://docs.hanzo.ai/api/iam",
@@ -100,7 +100,7 @@ const apis = [
   },
   {
     title: "KMS",
-    domain: "kms.hanzo.ai",
+    domain: "api.hanzo.ai/v1/kms",
     description:
       "Secrets management, encryption keys, certificates, and org-scoped credential storage.",
     docs: "https://docs.hanzo.ai/api/kms",

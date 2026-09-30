@@ -23,24 +23,10 @@ import {
 
 const baseUrls = [
   {
-    service: "Cloud API",
+    service: "Hanzo API",
     url: "https://api.hanzo.ai",
-    description: "Core platform — compute, storage, inference, billing, and project management.",
-  },
-  {
-    service: "LLM Gateway",
-    url: "https://llm.hanzo.ai",
-    description: "OpenAI-compatible proxy for 100+ LLM providers with unified auth and billing.",
-  },
-  {
-    service: "IAM",
-    url: "https://hanzo.id",
-    description: "Identity and access management — OAuth 2.0, OIDC, SSO, JWT.",
-  },
-  {
-    service: "KMS",
-    url: "https://kms.hanzo.ai",
-    description: "Secrets, encryption keys, certificates, and org-scoped credential storage.",
+    description:
+      "One endpoint for every capability, each under /v1/<capability>: models at /v1/chat/completions, identity at /v1/iam, secrets at /v1/kms, and compute, storage, billing and projects beside them.",
   },
 ];
 
@@ -48,7 +34,7 @@ const authMethods = [
   {
     method: "Bearer Token",
     description: "Pass your API key in the Authorization header. Recommended for most use cases.",
-    example: `curl https://llm.hanzo.ai/v1/chat/completions \\
+    example: `curl https://api.hanzo.ai/v1/chat/completions \\
   -H "Authorization: Bearer $HANZO_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -59,7 +45,7 @@ const authMethods = [
   {
     method: "OAuth 2.0 Client Credentials",
     description: "For server-to-server integation. Exchange client ID and secret for an access token.",
-    example: `curl -X POST https://hanzo.id/v1/iam/oauth/token \\
+    example: `curl -X POST https://api.hanzo.ai/v1/iam/oauth/token \\
   -d "grant_type=client_credentials" \\
   -d "client_id=$CLIENT_ID" \\
   -d "client_secret=$CLIENT_SECRET"`,
@@ -267,14 +253,14 @@ export default function PageClient() {
         >
           <h3 className="hz-w-semibold hz-mb-2">OpenAI Compatible</h3>
           <p className="hz-t-sm hz-fg hz-mb-3">
-            The LLM Gateway implements the OpenAI API specification. If you already use the OpenAI
+            api.hanzo.ai implements the OpenAI API specification. If you already use the OpenAI
             SDK, point it at Hanzo with zero code changes:
           </p>
           <CodeBlock
             code={`from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://llm.hanzo.ai/v1",
+    base_url="https://api.hanzo.ai/v1",
     api_key="your-hanzo-api-key",
 )
 
@@ -350,7 +336,7 @@ client = OpenAI(
         >
           <h2 className="hz-t-3xl hz-w-bold hz-mb-2">Core Endpoints</h2>
           <p className={cn("hz-t-lg hz-mb-6", "hz-fg")}>
-            Primary endpoints on the LLM Gateway (<code className="hz-mono hz-t-sm">llm.hanzo.ai</code>).
+            Primary endpoints on <code className="hz-mono hz-t-sm">api.hanzo.ai</code>.
           </p>
           <div className="hz-stack-6">
             {endpoints.map((section) => (
