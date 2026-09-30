@@ -2,16 +2,18 @@
 
 import { useEffect } from "react";
 import { Button } from '@hanzo/ui'
-import { ExternalLink } from "lucide-react";
+import site from "@/site.config";
+import { useAnalytics } from "@hanzo/event/react";
 
+/**
+ * Sign-in lives on hanzo.ai (site.try): this site keeps no session of its own,
+ * so /login and /auth forward there, carrying the visitor across the hop.
+ */
 export default function PageClient() {
+  const stream = useAnalytics();
   useEffect(() => {
-    // Auto-redirect after 2 seconds
-    const timer = setTimeout(() => {
-      window.location.href = "https://hanzo.id";
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    window.location.replace(stream.link(site.try.href));
+  }, [stream]);
 
   return (
     <div className="hz-min-h-screen hz-row hz-ai-center hz-jc-center hz-px-4 hz-bg">
@@ -21,14 +23,13 @@ export default function PageClient() {
             Sign in to Hanzo
           </h2>
           <p className="hz-mt-4 hz-fg">
-            Authentication is handled securely through Hanzo ID.
-            You will be redirected automatically.
+            You sign in on hanzo.ai. Taking you there now.
           </p>
         </div>
         <div>
-          <a href="https://hanzo.id">
+          <a href={site.try.href}>
             <Button className="hz-w-full hz-bg-inverse hz-hoverable">
-              Continue to Hanzo ID <ExternalLink className="hz-sq-2 hz-ml-2" />
+              {site.try.label}
             </Button>
           </a>
         </div>

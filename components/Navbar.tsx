@@ -7,171 +7,12 @@ import { Button, cn } from '@hanzo/ui'
 import {
   ChevronDown, ExternalLink, Menu, X, Bot, Code2, Cloud, Cpu, MessageSquare,
   BookOpen, Microscope, Brain, Shield, Network, Boxes, FlaskConical, FileText,
-  Github, Sparkles, Video, Box, Zap, Server, Smartphone,
+  Github, Sparkles, Zap, Server, Smartphone,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import NavbarContainer from './navigation/NavbarContainer'
 import Logo from './Logo'
 import site from '@/site.config'
-
-const zenModels = [
-  { name: 'zen-eco', params: '4B', description: 'Fast general-purpose LLM', icon: Brain, href: 'https://huggingface.co/zenlm/zen-eco-4b-instruct' },
-  { name: 'zen-omni', params: '8B', description: 'Multimodal vision + audio', icon: Sparkles, href: 'https://huggingface.co/zenlm/zen-omni-8b' },
-  { name: 'zen-director', params: '5B', description: 'Text-to-video generation', icon: Video, href: 'https://huggingface.co/zenlm/zen-director-5b' },
-  { name: 'zen-3d', params: '3.3B', description: '3D asset generation', icon: Box, href: 'https://huggingface.co/zenlm/zen-3d' },
-]
-
-const quickAccess = [
-  { label: 'Hanzo Dev', desc: 'AI coding agent', href: site.links.dev, external: true },
-  { label: 'Hanzo Bot', desc: 'AI team in a box', href: site.links.bot, external: true },
-  { label: 'Hanzo Team', desc: 'Work with Hanzo engineers', href: site.links.team, external: true },
-  { label: 'All Zen Models', desc: '600M-1T+ parameters', href: '/models', external: false },
-]
-
-const loginItems = [
-  { label: 'Hanzo AI', href: site.links.platform, external: true },
-  { label: 'Hanzo Chat', href: site.links.chat, external: true },
-  { label: 'Hanzo Bot', href: site.links.botApp, external: true },
-]
-
-function TryHanzoDropdown() {
-  const [isOpen, setIsOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const router = useRouter()
-
-  const clearTimeoutRef = useCallback(() => {
-    if (timeoutRef.current) { clearTimeout(timeoutRef.current); timeoutRef.current = null }
-  }, [])
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) setIsOpen(false)
-    }
-    if (isOpen) document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isOpen])
-
-  return (
-    <div className="hz-rel" ref={menuRef}
-      onMouseEnter={() => { clearTimeoutRef(); setIsOpen(true) }}
-      onMouseLeave={() => { clearTimeoutRef(); timeoutRef.current = setTimeout(() => setIsOpen(false), 300) }}
-    >
-      <Button size="sm" onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          'hz-r-full hz-px-4 hz-w-medium hz-transition hz-shadow-lg',
-          'hz-bg-inverse hz-shadow hz-hoverable',
-          isOpen && 'hz-bg-surface'
-        )}
-      >
-        Try Zen
-        <ChevronDown className={cn('hz-sq-2 hz-ml-1 hz-transition', isOpen && '')} />
-      </Button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.96 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="hz-abs hz-right-0 hz-mw-full hz-z-overlay"
-          >
-            <div className="hz-bh-1" />
-            <div className="hz-glass hz-bordered hz-r-xl hz-shadow-lg hz-clip hz-bg-surface hz-shadow">
-              {/* Zen AI Models */}
-              <div className="hz-p-4">
-                <div className="hz-row hz-ai-center hz-jc-between hz-mb-3">
-                  <div className="hz-row hz-ai-center hz-gap-2">
-                    <Brain className="hz-sq-2 hz-fg" />
-                    <span className="hz-t-xs hz-w-semibold hz-upper hz-tracking-wide hz-fg">Zen AI Models</span>
-                  </div>
-                  <button onClick={() => { setIsOpen(false); router.push('/models') }}
-                    className="hz-t-xs hz-transition hz-fg hz-hoverable">
-                    View all &rarr;
-                  </button>
-                </div>
-                <div className="hz-grid hz-grid-2 hz-gap-2">
-                  {zenModels.map((model) => {
-                    const ModelIcon = model.icon
-                    return (
-                      <a key={model.name} href={model.href} target="_blank" rel="noopener noreferrer"
-                        onClick={() => setIsOpen(false)}
-                        className="hz-row hz-ai-start hz-gap-3 hz-p-3 hz-r-lg hz-transition hz-bg-surface hz-hoverable"
-                      >
-                        <div className="hz-sq-5 hz-r-lg hz-row hz-ai-center hz-jc-center hz-none hz-bg-surface">
-                          <ModelIcon className="hz-sq-2 hz-fg hz-hoverable" />
-                        </div>
-                        <div className="">
-                          <div className="hz-row hz-ai-center hz-gap-2">
-                            <span className="hz-t-sm hz-w-medium hz-fg">{model.name}</span>
-                            <span className="hz-t-xs hz-mono hz-fg">{model.params}</span>
-                          </div>
-                          <p className="hz-t-xs hz-truncate hz-fg">{model.description}</p>
-                        </div>
-                      </a>
-                    )
-                  })}
-                </div>
-              </div>
-
-              <div className="hz-border-t" />
-
-              {/* Quick Access */}
-              <div className="hz-py-2">
-                <div className="hz-px-4 hz-py-2">
-                  <span className="hz-t-xs hz-w-medium hz-upper hz-tracking-wide hz-fg">Quick Access</span>
-                </div>
-                {quickAccess.map((item) =>
-                  item.external ? (
-                    <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-                      onClick={() => setIsOpen(false)}
-                      className="hz-row hz-ai-center hz-jc-between hz-w-full hz-py-2 hz-px-4 hz-transition hz-fg hz-hoverable"
-                    >
-                      <div>
-                        <span className="hz-t-sm">{item.label}</span>
-                        {item.desc && <span className="hz-t-xs hz-ml-2 hz-fg-soft">{item.desc}</span>}
-                      </div>
-                      <ExternalLink className="hz-sq-2 hz-fg-soft" />
-                    </a>
-                  ) : (
-                    <button key={item.label}
-                      onClick={() => { setIsOpen(false); router.push(item.href) }}
-                      className="hz-row hz-ai-center hz-jc-between hz-w-full hz-py-2 hz-px-4 hz-align-left hz-transition hz-fg hz-hoverable"
-                    >
-                      <div>
-                        <span className="hz-t-sm">{item.label}</span>
-                        {item.desc && <span className="hz-t-xs hz-ml-2 hz-fg-soft">{item.desc}</span>}
-                      </div>
-                    </button>
-                  )
-                )}
-              </div>
-
-              <div className="hz-border-t" />
-
-              {/* Login */}
-              <div className="hz-py-2">
-                <div className="hz-px-4 hz-py-2">
-                  <span className="hz-t-xs hz-w-medium hz-upper hz-tracking-wide hz-fg">Log in</span>
-                </div>
-                {loginItems.map((item) => (
-                  <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer"
-                    onClick={() => setIsOpen(false)}
-                    className="hz-row hz-ai-center hz-jc-between hz-w-full hz-py-2 hz-px-4 hz-transition hz-fg hz-hoverable"
-                  >
-                    <span className="hz-t-sm">{item.label}</span>
-                    <ExternalLink className="hz-sq-2 hz-fg-soft" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  )
-}
 
 interface MenuItem {
   label: string; href: string; description: string
@@ -339,7 +180,11 @@ export default function Navbar() {
       </div>
 
       <div className="hz-desktop-only hz-row hz-ai-center hz-inline-3">
-        <TryHanzoDropdown />
+        <a href={site.try.href}>
+          <Button size="sm" className="hz-r-full hz-px-4 hz-w-medium hz-transition hz-shadow-lg hz-bg-inverse hz-shadow hz-hoverable">
+            {site.try.label}
+          </Button>
+        </a>
       </div>
 
       <button
@@ -391,8 +236,8 @@ export default function Navbar() {
                 <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
                   <Button variant="outline" className="hz-w-full hz-fg hz-hoverable">Contact</Button>
                 </Link>
-                <a href={site.links.platform} target="_blank" rel="noopener noreferrer">
-                  <Button className="hz-w-full hz-bg-inverse hz-hoverable">Try Zen</Button>
+                <a href={site.try.href}>
+                  <Button className="hz-w-full hz-bg-inverse hz-hoverable">{site.try.label}</Button>
                 </a>
               </div>
             </div>

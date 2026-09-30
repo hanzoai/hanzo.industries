@@ -7,7 +7,21 @@ Defense and enterprise marketing site for Hanzo AI ([hanzo.industries](https://h
 - `components/` — Navbar, Hero, Logo, GlobalChatWidget (SSE chat over Zen models), CommandPalette (Cmd+K).
 - `lib/data/products.ts` — the 14 product definitions.
 - `public/llms.txt` — LLM site summary.
-- `components/Analytics.tsx` — the telemetry root (`@hanzo/event` → `api.hanzo.ai/v1/event`). The one client; there is no GA, no Plausible, no separate error SDK.
+- `components/Analytics.tsx` — the telemetry root (`@hanzo/event` → `api.hanzo.ai/v1/event`). The one client; no Plausible, no separate error SDK.
+
+## Sign-in, CTAs, tracking
+- **This site signs no one in.** Every "Try Hanzo" goes to `site.try.href`
+  (`https://hanzo.ai/login`, hanzo.ai's own sign-in); `/login` and `/auth` forward
+  there. Nothing links or redirects to hanzo.id — CI greps `out/` for it.
+- **Tags are not in this repo.** `startTags` (@hanzo/event) fetches the site's tag
+  set from `GET api.hanzo.ai/v1/project/tags?key=<pk>&host=<host>` and loads GA4
+  and the Meta Pixel as consent allows, with the GA4 linker over hanzo.industries,
+  hanzo.ai, pay.hanzo.ai and cal.hanzo.ai. Never hardcode a GA or Pixel id; the
+  host → stream mapping is cloud's. Funnel moments go through `track(stream, …)`
+  with @hanzo/events names (`sales_contacted` for the contact form and cal links).
+- The publishable key `pk-CmfLA…` is declared in `components/Analytics.tsx`; CI
+  refuses to publish a bundle whose keys the endpoint answers 401/403.
+- Every runtime call goes to `api.hanzo.ai/v1` (pricing, contact, event, chat).
 
 ## Commands
 - Dev: `pnpm dev` (http://localhost:8080)
@@ -81,19 +95,18 @@ Revisit when Next ships a TS7-compatible config loader. Do **not** add
 behind 7.0.2 stable, and has the same JS-API surface.
 
 ## How it ships
-`.hanzo/workflows/deploy.yml` on the git.hanzo.ai forge (`hanzo-build-linux-amd64`):
-build `out/` → `POST /v1/projects/hanzo-industries/deploy` (202, carrying a
-presigned upload grant) → POST each file under that grant → `POST …/complete`
-with the file manifest as `keys`. The bytes never pass through the API —
-BodyLimit is 16 MiB. No GitHub Pages, no Cloudflare Pages, and no image: a static
-export has no compute to run.
+`.github/workflows/deploy.yml` on GitHub Actions, runner label `linux-amd64` (the
+cluster's ephemeral runners register that one label): build `out/` → gates →
+`hanzoai/ci`'s `site` action publishes project `hanzo-industries` under a
+presigned grant to `s3://hanzo-sites/hanzo/hanzo-industries`. The edge serves
+hanzo.industries from that prefix (universe `infra/aws/routes/sites.yaml`,
+middleware `hanzo-industries-static`; the `edge-routes` CD app is manual). No
+GitHub Pages, no Cloudflare Pages, and no image: a static export has no compute.
 
 This repo holds NO S3 credential. The grant is confined to this site's prefix and
 expires in 30 minutes; deletion rides the manifest, because a write-only grant
-cannot remove a file. The secrets are `KMS_CLIENT_ID` / `KMS_CLIENT_SECRET`, set
-ON THE FORGE; `hanzoai/ci`'s `site` action reads the deploy key out of KMS with
-them, so the key is resealed in one place instead of copied into each org's
-secret store — which is what the action it replaced, `sitedeploy`, could not do.
+cannot remove a file. The secrets are the hanzoai org's `KMS_CLIENT_ID` /
+`KMS_CLIENT_SECRET`; the action reads the deploy key out of KMS with them.
 
 ## Brand policy (load-bearing)
 Monochrome only (black/white, no accent colors). Present Zen models as Hanzo's own family — never name upstream models (GLM, Kimi, Qwen, etc.). Keep factual specs accurate.

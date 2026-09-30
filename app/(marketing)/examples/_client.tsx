@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from '@hanzo/ui'
 import { Code2, Terminal, FileCode, Package, Rocket, BookOpen, Cpu, Lock, Users, Zap, Globe } from "lucide-react";
+import site from "@/site.config";
 
 export default function PageClient() {
   const examples = [
@@ -327,13 +328,13 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
             </p>
             <div className="hz-col-row hz-gap-4 hz-jc-center">
               <a
-                href="https://console.hanzo.ai/signup"
+                href={site.try.href}
                 className={cn(
                   "hz-px-6 hz-py-4 hz-r-lg hz-w-semibold hz-transition",
                   "hz-bg-inverse hz-hoverable"
                 )}
               >
-                Get API Key
+                {site.try.label}
               </a>
               <a
                 href="https://github.com/hanzoai"

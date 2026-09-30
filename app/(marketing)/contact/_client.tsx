@@ -15,6 +15,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { Button, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, cn } from '@hanzo/ui'
+import { track } from "@hanzo/event";
+import { useAnalytics } from "@hanzo/event/react";
 
 const socialLinks = [
   {
@@ -60,6 +62,7 @@ const socialLinks = [
 ];
 
 export default function PageClient() {
+  const stream = useAnalytics();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -81,6 +84,7 @@ export default function PageClient() {
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error("Failed to send");
+      track(stream, "sales_contacted", { form: "contact", inquiry_type: formData.inquiryType });
       setSubmitted(true);
       setFormData({ name: "", email: "", company: "", subject: "", message: "", inquiryType: "general" });
     } catch {

@@ -72,10 +72,10 @@ export default function Hero() {
                 <ArrowRight className="hz-sq-2 hz-ml-2" />
               </Button>
             </Link>
-            <a href={site.links.platform} target="_blank" rel="noopener noreferrer">
+            <a href={site.try.href}>
               <Button size="lg" variant="outline" className="hz-w-full hz-t-base hz-px-6 hz-bh-7 hz-r-full hz-fg hz-hoverable">
                 <Sparkles className="hz-sq-2 hz-mr-2" />
-                Try Zen AI
+                {site.try.label}
               </Button>
             </a>
             <a href={site.links.bot} target="_blank" rel="noopener noreferrer">

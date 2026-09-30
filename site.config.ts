@@ -55,12 +55,12 @@ const siteConfig = {
     zenModels: 'https://hanzo.ai/zen',
     modelApi: 'https://hanzo.ai/api',
   },
+  // The one call to action, as hanzo.ai states it. This site signs no one in:
+  // hanzo.ai/login is hanzo.ai's own sign-in page, so every sign-in and sign-up
+  // happens there and nothing here navigates to the identity host.
+  try: { label: 'Try Hanzo', href: 'https://hanzo.ai/login' },
   chat: {
     apiUrl: 'https://api.hanzo.ai',
-    // CANONICAL HIP-0111 path (what hanzo.id's discovery advertises). The bare
-    // /oauth/authorize was only ever served by the hanzo.id-worker shim.
-    iamAuthorizeUrl: 'https://hanzo.id/v1/iam/oauth/authorize',
-    iamClientId: 'hanzo-app-client-id',
     freeMessageLimit: 1,
   },
   stats: [

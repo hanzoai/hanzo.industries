@@ -24,6 +24,7 @@ import {
   Terminal,
   Wrench,
 } from "lucide-react";
+import site from "@/site.config";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                              */
@@ -630,9 +631,9 @@ export default function PageClient() {
             Create an account, grab your API key, and make your first call in under a minute.
           </p>
           <div className="hz-row hz-wrap hz-jc-center hz-gap-3">
-            <a href="https://console.hanzo.ai" target="_blank" rel="noopener noreferrer">
+            <a href={site.try.href}>
               <Button variant="primary" className="hz-gap-2">
-                Get API Key <ArrowRight className="hz-sq-2" />
+                {site.try.label} <ArrowRight className="hz-sq-2" />
               </Button>
             </a>
             <a href="https://docs.hanzo.ai" target="_blank" rel="noopener noreferrer">

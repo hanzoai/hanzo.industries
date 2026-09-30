@@ -15,6 +15,7 @@ import {
   Heart,
   Shield,
 } from "lucide-react";
+import site from "@/site.config";
 
 /* ─── API endpoints ─── */
 
@@ -377,11 +378,12 @@ export default function PageClient() {
                   plan,
                   billingPeriod
                 );
-                const ctaText =
-                  plan.cta ??
-                  (plan.priceMonthly === 0 ? "Start Free" : "Get Started");
+                // A paid plan names itself, so hanzo.ai's sign-in goes on to
+                // that plan's checkout (its /login reads `?plan=`).
+                const ctaText = plan.cta ?? site.try.label;
                 const ctaLink =
-                  plan.ctaLink ?? `https://console.hanzo.ai?plan=${plan.id}`;
+                  plan.ctaLink ??
+                  (plan.priceMonthly ? `${site.try.href}?plan=${encodeURIComponent(plan.id)}` : site.try.href);
 
                 return (
                   <motion.div
@@ -447,11 +449,7 @@ export default function PageClient() {
                       {plan.description}
                     </p>
 
-                    <a
-                      href={ctaLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <a href={ctaLink}>
                       <Button
                         className={cn(
                           "hz-w-full hz-mb-5",
@@ -998,17 +996,13 @@ export default function PageClient() {
               free credit.
             </p>
             <div className="hz-col-row hz-gap-4 hz-jc-center">
-              <a
-                href="https://console.hanzo.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={site.try.href}>
                 <Button
                   className={cn(
                     "hz-bg-inverse hz-hoverable"
                   )}
                 >
-                  Start Building Free
+                  {site.try.label}
                 </Button>
               </a>
               <Link href="/contact">

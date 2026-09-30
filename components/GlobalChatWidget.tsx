@@ -26,9 +26,6 @@ import site from "@/site.config";
 
 const API_URL = site.chat.apiUrl;
 const API_KEY = process.env.NEXT_PUBLIC_LLM_API_KEY ?? "";
-const IAM_AUTHORIZE_URL = site.chat.iamAuthorizeUrl;
-const IAM_CLIENT_ID = site.chat.iamClientId;
-const AUTH_TOKEN_KEY = "hanzo_auth_token";
 const CHAT_COUNT_KEY = "hanzo_chat_count";
 const FREE_MESSAGE_LIMIT = site.chat.freeMessageLimit;
 
@@ -42,14 +39,6 @@ interface ZenModel {
 
 const freeModels: ZenModel[] = [
   { id: "zen", name: "Zen", description: "Fast & capable", params: "32B", tier: "free" },
-];
-
-const premiumModels: ZenModel[] = [
-  { id: "zen4-pro", name: "Zen4 Pro", description: "80B MoE flagship", params: "80B MoE", tier: "pro" },
-  { id: "zen4", name: "Zen4", description: "744B MoE frontier", params: "744B MoE", tier: "pro" },
-  { id: "zen4-mini", name: "Zen4 Mini", description: "Fast 8B", params: "8B", tier: "pro" },
-  { id: "zen4-coder", name: "Zen4 Coder", description: "Code specialist", params: "480B MoE", tier: "pro" },
-  { id: "zen4-ultra", name: "Zen4 Ultra", description: "Deep reasoning", params: "744B MoE+CoT", tier: "pro" },
 ];
 
 const chatPresets = [
@@ -322,17 +311,11 @@ interface Message {
 }
 
 // ---------------------------------------------------------------------------
-// Auth helpers
+// Free-message count
 // ---------------------------------------------------------------------------
 
-function getAuthToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return sessionStorage.getItem(AUTH_TOKEN_KEY);
-}
-
-function isAuthenticated(): boolean {
-  return !!getAuthToken();
-}
+// The widget signs no one in. Past the free message it sends the visitor to
+// Try Hanzo (site.try), hanzo.ai's own sign-in, where the full chat lives.
 
 function getChatCount(): number {
   if (typeof window === "undefined") return 0;
@@ -344,29 +327,6 @@ function incrementChatCount(): number {
   const count = getChatCount() + 1;
   localStorage.setItem(CHAT_COUNT_KEY, String(count));
   return count;
-}
-
-function buildLoginUrl(): string {
-  if (typeof window === "undefined") return "#";
-  // Strip any existing auth params from the redirect URI
-  const url = new URL(window.location.href);
-  url.hash = "";
-  url.searchParams.delete("access_token");
-  url.searchParams.delete("token_type");
-  url.searchParams.delete("state");
-  const redirectUri = url.toString();
-  const state = Math.random().toString(36).slice(2);
-  if (typeof window !== "undefined") {
-    sessionStorage.setItem("hanzo_oauth_state", state);
-  }
-  const params = new URLSearchParams({
-    client_id: IAM_CLIENT_ID,
-    redirect_uri: redirectUri,
-    response_type: "token",
-    scope: "openid profile email",
-    state,
-  });
-  return `${IAM_AUTHORIZE_URL}?${params.toString()}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -431,9 +391,7 @@ export default function GlobalChatWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginGate, setShowLoginGate] = useState(false);
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
-  const [authed, setAuthed] = useState(false);
 
-  const allModels = authed ? [...freeModels, ...premiumModels] : freeModels;
   const [selectedModel, setSelectedModel] = useState<ZenModel>(freeModels[0]);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -443,52 +401,6 @@ export default function GlobalChatWidget() {
 
   const isDemoMode = !API_KEY;
   const pageContext = getPageContext(pathname);
-
-  // ---- OAuth callback token capture + auth state init ----
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    let token: string | null = null;
-
-    // Check URL hash for implicit flow token: #access_token=...&token_type=bearer
-    if (window.location.hash) {
-      const hashParams = new URLSearchParams(window.location.hash.slice(1));
-      const hashToken = hashParams.get("access_token");
-      if (hashToken) {
-        // Validate state if present
-        const returnedState = hashParams.get("state");
-        const savedState = sessionStorage.getItem("hanzo_oauth_state");
-        if (savedState && returnedState === savedState) {
-          token = hashToken;
-          sessionStorage.removeItem("hanzo_oauth_state");
-        }
-      }
-    }
-
-    // Note: query-param token fallback removed for security — tokens in query strings
-    // are logged by CDNs, analytics, and browser history. The hanzo.id-worker bridge
-    // flow must deliver tokens via hash fragment only.
-
-    // Store token and clean URL
-    if (token) {
-      sessionStorage.setItem(AUTH_TOKEN_KEY, token);
-      // Reset chat count so authenticated user gets unlimited
-      localStorage.removeItem(CHAT_COUNT_KEY);
-      const url = new URL(window.location.href);
-      url.hash = "";
-      url.searchParams.delete("access_token");
-      url.searchParams.delete("token_type");
-      url.searchParams.delete("expires_in");
-      url.searchParams.delete("state");
-      url.searchParams.delete("provider");
-      url.searchParams.delete("status");
-      window.history.replaceState({}, "", url.toString());
-      // Auto-open chat after login
-      setIsOpen(true);
-    }
-
-    setAuthed(isAuthenticated());
-  }, []);
 
   // ---- Close model dropdown on outside click ----
   useEffect(() => {
@@ -571,8 +483,8 @@ export default function GlobalChatWidget() {
   const handleSend = useCallback(async () => {
     if (!input.trim() || isLoading) return;
 
-    // Login gate check: if not authed and already used free exchange
-    if (!authed && getChatCount() >= FREE_MESSAGE_LIMIT) {
+    // Past the free exchange, the gate sends the visitor to Try Hanzo.
+    if (getChatCount() >= FREE_MESSAGE_LIMIT) {
       setShowLoginGate(true);
       return;
     }
@@ -590,10 +502,7 @@ export default function GlobalChatWidget() {
     setIsLoading(true);
     setShowLoginGate(false);
 
-    // Track usage
-    if (!authed) {
-      incrementChatCount();
-    }
+    incrementChatCount();
 
     // Demo mode: return canned response
     if (isDemoMode) {
@@ -632,15 +541,8 @@ export default function GlobalChatWidget() {
     try {
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
       };
-
-      // Use user auth token if available, otherwise API key
-      const authToken = getAuthToken();
-      if (authToken) {
-        headers["Authorization"] = `Bearer ${authToken}`;
-      } else {
-        headers["Authorization"] = `Bearer ${API_KEY}`;
-      }
 
       const conversationHistory = messages
         .filter((m) => m.id !== "welcome")
@@ -723,7 +625,7 @@ export default function GlobalChatWidget() {
       abortRef.current = null;
       setIsLoading(false);
     }
-  }, [input, isLoading, pageContext, messages, selectedModel, authed, isDemoMode]);
+  }, [input, isLoading, pageContext, messages, selectedModel, isDemoMode]);
 
   const handlePreset = (preset: (typeof chatPresets)[0]) => {
     setInput(preset.prompt);
@@ -826,7 +728,7 @@ export default function GlobalChatWidget() {
                         exit={{ opacity: 0, y: -4 }}
                         className="hz-abs hz-left-0 hz-mt-1 hz-bw-8 hz-bordered hz-r-lg hz-shadow-lg hz-clip hz-z-raised hz-bg-surface"
                       >
-                        {allModels.map((model) => (
+                        {freeModels.map((model) => (
                           <button
                             key={model.id}
                             onClick={() => {
@@ -986,17 +888,17 @@ export default function GlobalChatWidget() {
                         <Lock className="hz-sq-3 hz-fg-muted" />
                       </div>
                       <h3 className="hz-t-base hz-w-semibold hz-fg hz-mb-2">
-                        Sign in to continue
+                        Keep going on Hanzo
                       </h3>
                       <p className="hz-t-xs hz-fg-muted hz-mb-4 hz-leading-relaxed">
-                        You have used your free message. Sign in to unlock
-                        unlimited chat and access premium Zen models.
+                        You have used your free message. Sign in on Hanzo for
+                        unlimited chat and every Zen model.
                       </p>
                       <a
-                        href={buildLoginUrl()}
+                        href={site.try.href}
                         className="hz-w-full hz-px-4 hz-py-2 hz-r-lg hz-bg-inverse hz-fg-inverse hz-t-sm hz-w-medium hz-transition hz-hoverable"
                       >
-                        Sign in with Hanzo
+                        {site.try.label}
                       </a>
                       <button
                         onClick={() => setShowLoginGate(false)}
@@ -1067,9 +969,7 @@ export default function GlobalChatWidget() {
               </div>
               <div className="hz-mt-2 hz-align-center">
                 <span className="hz-t-xs hz-fg-faint">
-                  {authed
-                    ? "Press Enter to send"
-                    : `${Math.max(0, FREE_MESSAGE_LIMIT - getChatCount())} free message${FREE_MESSAGE_LIMIT - getChatCount() !== 1 ? "s" : ""} remaining`}
+                  {`${Math.max(0, FREE_MESSAGE_LIMIT - getChatCount())} free message${FREE_MESSAGE_LIMIT - getChatCount() !== 1 ? "s" : ""} remaining`}
                 </span>
               </div>
             </div>

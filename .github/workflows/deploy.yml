@@ -16,10 +16,8 @@ name: deploy
 # created idempotently before the enqueue, so committing this file is enough to
 # stand the site up.
 #
-# The secrets are the KMS machine identity, and the action reads the deploy key
-# from KMS with them. They are set ON THE FORGE: this file lives under
-# .hanzo/workflows/, which only git.hanzo.ai reads, so GitHub's secret store is
-# not in this path at all.
+# The secrets are the KMS machine identity (hanzoai org secrets), and the action
+# reads the deploy key from KMS with them.
 
 on:
   push:
@@ -32,11 +30,10 @@ concurrency:
 
 jobs:
   site:
-    # NOT ubuntu-latest. This file lives in .hanzo/workflows, which GitHub never
-    # reads — git.hanzo.ai is the only thing that can run it, and its fleet
-    # advertises hanzo-build-linux-amd64. An unmatched label is not an error here,
-    # it is silence: the job queues until the 24h timeout and nothing says so.
-    runs-on: hanzo-build-linux-amd64
+    # The cluster's ephemeral runners register with the single label
+    # `linux-amd64`. An unmatched label is not an error, it is silence: the job
+    # queues until the 24h timeout and nothing says so.
+    runs-on: [linux-amd64]
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -48,7 +45,6 @@ jobs:
       - name: build the static export
         env:
           NEXT_TELEMETRY_DISABLED: '1'
-          NEXT_PUBLIC_PUBLISHABLE_KEY: ${{ secrets.PUBLISHABLE_KEY }}
         run: |
           set -euo pipefail
           corepack enable && corepack prepare pnpm@9.15.4 --activate
@@ -79,6 +75,39 @@ jobs:
           done
           [ "$FAILED" = "0" ]
           echo "all smoke tests passed"
+
+      # The publishable key is declared in components/Analytics.tsx; it admits
+      # every anonymous event and names the site's tag set. A key the endpoint
+      # refuses (401/403) stops the publish; an outage does not.
+      - name: Prove the keys the bundle carries resolve at the endpoint
+        run: |
+          set -euo pipefail
+          keys=$(grep -rhoE 'pk-[A-Za-z0-9_-]{20,}' out/_next/static | sort -u)
+          [ -n "$keys" ] || { echo "::error::no pk- publishable key in out/_next/static; every anonymous event would 401"; exit 1; }
+          refused=0
+          for key in $keys; do
+            for wait in 0 10 30; do
+              [ "$wait" = 0 ] || sleep "$wait"
+              code=$(curl -s -m 20 -o /dev/null -w '%{http_code}' -X POST \
+                "https://api.hanzo.ai/v1/event?ingest_key=$key" \
+                -H 'content-type: application/json' -d '{"batch":[]}' || true)
+              case "$code" in 200|401|403) break ;; esac
+            done
+            case "$code" in
+              200) echo "resolves: $key" ;;
+              401|403) echo "::error::$key answered $code"; refused=1 ;;
+              *) echo "::warning::api.hanzo.ai answered $code for $key; unverified, not refused" ;;
+            esac
+          done
+          [ "$refused" = 0 ]
+
+      # Sign-in is hanzo.ai's: no page may send a browser to the identity host.
+      - name: Prove no page navigates to hanzo.id
+        run: |
+          set -euo pipefail
+          if grep -rlE 'href="https://hanzo\.id|location[^;]{0,40}hanzo\.id|/v1/iam/oauth/authorize' out; then
+            echo "::error::a page links or redirects to hanzo.id"; exit 1
+          fi
 
       # ONE credential, and the action reads it from KMS: the machine identity is
       # what travels, and the deploy key is resealed in one place rather than
