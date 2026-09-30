@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Activity, Github, FileText, Award, ExternalLink } from 'lucide-react'
 import Logo from './Logo'
 import { cn } from '@hanzo/ui'
+import { ConsentLink } from '@hanzo/ui/consent'
 import site from '@/site.config'
 
 const linkCn = 'hz-t-sm hz-link'
@@ -102,6 +103,7 @@ export default function Footer() {
               <Link href="/privacy" className={linkCn}>Privacy Policy</Link>
               <Link href="/terms" className={linkCn}>Terms of Service</Link>
               <Link href="/security" className={linkCn}>Security</Link>
+              <ConsentLink />
             </div>
           </div>
         </div>

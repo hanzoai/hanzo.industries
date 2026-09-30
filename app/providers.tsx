@@ -17,6 +17,7 @@
 import type { ReactNode } from 'react'
 import { GuiProvider } from '@hanzo/gui'
 import { Toaster } from '@hanzo/ui'
+import { Consent } from '@hanzo/ui/consent'
 import guiConfig from '@hanzo/ui/gui-config'
 import { ThemeProvider, useTheme } from 'next-themes'
 
@@ -27,6 +28,7 @@ function Themed({ children }: { children: ReactNode }) {
   return (
     <GuiProvider config={guiConfig} defaultTheme={resolvedTheme === 'dark' ? 'dark' : 'light'}>
       <Toaster />
+      <Consent />
       {children}
     </GuiProvider>
   )

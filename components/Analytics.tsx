@@ -11,12 +11,6 @@ import { AnalyticsProvider, useAnalytics, useConsent, usePageview } from '@hanzo
  *  tenant server-side from the publishable ingest key. */
 const HOST = 'https://api.hanzo.ai'
 
-/** Publishable ingest key: write-only, public by design, and REQUIRED for
- *  anonymous traffic — without it every pageview is answered 401
- *  ingest_key_required. It also names this site's tag set (GA4, the Pixel) at
- *  GET /v1/project/tags. */
-const KEY = 'pk-CmfLA2K6kvsPflrS9DSkt06H_kSoQB_21sjedt6VJdc'
-
 /** The sites one visit can cross; GA4 keeps it one session across them. */
 const DOMAINS = ['hanzo.industries', 'hanzo.ai', 'pay.hanzo.ai', 'cal.hanzo.ai']
 
@@ -52,7 +46,7 @@ function Tags() {
   const stream = useAnalytics()
   const live = useRef(stream)
   live.current = stream
-  useEffect(() => startTags({ key: KEY, host: window.location.hostname, domains: DOMAINS }), [])
+  useEffect(() => startTags({ host: window.location.hostname, domains: DOMAINS }), [])
   useEffect(() => {
     const carry = (e: Event) => {
       const a = (e.target as Element | null)?.closest?.('a[href]') as HTMLAnchorElement | null
@@ -83,7 +77,7 @@ function Tags() {
 export function Analytics({ children }: { children: React.ReactNode }) {
   const consent = useConsent()
   return (
-    <AnalyticsProvider config={{ product: 'hanzo-industries', host: HOST, ingestKey: KEY, enabled: consent.analytics }}>
+    <AnalyticsProvider config={{ product: 'hanzo-industries', host: HOST, enabled: consent.analytics }}>
       <Pageview />
       <Tags />
       {children}
