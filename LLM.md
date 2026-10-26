@@ -19,7 +19,10 @@ Defense and enterprise marketing site for Hanzo AI ([hanzo.industries](https://h
   hanzo.ai, pay.hanzo.ai and cal.hanzo.ai. Never hardcode a GA or Pixel id; the
   host → stream mapping is cloud's. Funnel moments go through `track(stream, …)`
   with @hanzo/events names (`sales_contacted` for the contact form and cal links).
-- The publishable key `pk-CmfLA…` is declared in `components/Analytics.tsx`; CI
+- The stream declares no key: @hanzo/event's SITE_KEY gives hanzo.industries the
+  key of cloud project `hanzo-industries`, for the stream and the tag set alike.
+  The stream is first party and runs for every visitor (@hanzo/event 0.3.61);
+  consent gates GA4 and the Pixel alone. The banner is `@hanzo/ui/consent`. CI
   refuses to publish a bundle whose keys the endpoint answers 401/403.
 - Every runtime call goes to `api.hanzo.ai/v1` (pricing, contact, event, chat).
 

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { startTags, track } from '@hanzo/event'
-import { AnalyticsProvider, useAnalytics, useConsent, usePageview } from '@hanzo/event/react'
+import { AnalyticsProvider, useAnalytics, usePageview } from '@hanzo/event/react'
 
 /** The ONE Hanzo Cloud telemetry front door — POST api.hanzo.ai/v1/event. Cloud
  *  fans the one batched stream out to the web (analytics), product (insights) and
@@ -72,12 +72,14 @@ function Tags() {
  * Telemetry root. The provider owns the ONE @hanzo/event client: it fires the
  * first pageview, registers auto error capture (window.onerror +
  * unhandledrejection) and flushes on unload; <Pageview> adds one per client-side
- * route change. The stream runs while the visitor's consent allows Analytics.
+ * route change. The stream is first-party analytics and runs for every visitor,
+ * before and whatever the consent choice (@hanzo/event 0.3.61); consent gates
+ * the third-party tags alone (startTags, in <Tags>). The key is the one SITE_KEY
+ * gives hanzo.industries, project hanzo-industries.
  */
 export function Analytics({ children }: { children: React.ReactNode }) {
-  const consent = useConsent()
   return (
-    <AnalyticsProvider config={{ product: 'hanzo-industries', host: HOST, enabled: consent.analytics }}>
+    <AnalyticsProvider config={{ product: 'hanzo-industries', host: HOST }}>
       <Pageview />
       <Tags />
       {children}

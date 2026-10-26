@@ -15,10 +15,10 @@
   },
   "dependencies": {
     "@hanzo/design": "^0.4.6",
-    "@hanzo/event": "^0.3.52",
-    "@hanzo/gui": "^8.0.2",
+    "@hanzo/event": "^0.3.61",
+    "@hanzo/gui": "^8.3.5",
     "@hanzo/logo": "^1.0.14",
-    "@hanzo/ui": "^8.27.38",
+    "@hanzo/ui": "^8.29.14",
     "@zenlm/models": "^1.0.3",
     "framer-motion": "^12.4.2",
     "lucide-react": "^0.462.0",
@@ -35,5 +35,19 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "typescript": "~5.9.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@hanzo/event": "0.3.61",
+      "@hanzo/gui": "8.3.5",
+      "@hanzo/ui": "8.29.14",
+      "@hanzogui/animations-css": "8.3.5",
+      "@hanzogui/config": "8.3.5",
+      "@hanzogui/core": "8.3.5",
+      "@hanzogui/lucide-icons-2": "8.3.5",
+      "@hanzogui/telemetry": "8.3.5",
+      "@hanzogui/toast": "8.3.5",
+      "@hanzogui/web": "8.3.5"
+    }
   }
 }
