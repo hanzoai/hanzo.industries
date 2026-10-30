@@ -21,7 +21,7 @@ Defense and enterprise marketing site for Hanzo AI ([hanzo.industries](https://h
   with @hanzo/events names (`sales_contacted` for the contact form and cal links).
 - The stream declares no key: @hanzo/event's SITE_KEY gives hanzo.industries the
   key of cloud project `hanzo-industries`, for the stream and the tag set alike.
-  The stream is first party and runs for every visitor (@hanzo/event 0.3.63);
+  The stream is first party and runs for every visitor (@hanzo/event 0.3.66);
   GA4 and the Pixel follow cloud's rule for the visitor's region (at once in
   the US, on consent in the EU). The banner is `@hanzo/ui/consent`. CI
   refuses to publish a bundle whose keys the endpoint answers 401/403.
